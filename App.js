@@ -1,21 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import {Provider} from "react-redux";
+import store from "./store";
+import WeatherContainer from "./components/weather-container";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+const App = () => {
+
+
+    const styles = StyleSheet.create({
+        container: {
+            height: '100%',
+            paddingVertical: 50,
+            paddingHorizontal: 15,
+        }
+    });
+
+
+    return (
+
+        <Provider store={store}>
+            <View style={styles.container}>
+                <WeatherContainer />
+                {/*<HeaderContainer />*/}
+                {/*<CurrencyWeatherContainer />*/}
+            </View>
+        </Provider>
+    );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
+export default App;
+
+// window.state = store;
