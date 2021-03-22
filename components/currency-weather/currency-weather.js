@@ -8,7 +8,8 @@ const CurrencyWeather = ({data, name}) => {
         GeometriaBold: require('../../assets/fonts/Geometria-Bold.ttf'),
         GeometriaExtraBold: require('../../assets/fonts/Geometria-ExtraBold.ttf')
     });
-    const {current} = data;
+    const {current, daily, hourly} = data;
+    console.log(hourly);
 
     const styles = StyleSheet.create({
         container: {
@@ -131,6 +132,34 @@ const CurrencyWeather = ({data, name}) => {
                     <Text style={styles.block_child}>Давление: {current.pressure} гПа</Text>
                     <Text style={styles.block_child}>УФ-индекс: {Math.floor(current.uvi)}</Text>
                 </View>
+                <ScrollView horizontal={true} >
+                    <View style={{flexDirection: 'row'}}>
+                        {
+                            daily.map(item => {
+                                return <View key={item.dt} >
+                                    <Text>{dateTransform(item.dt)}</Text>
+                                    <Text>{Math.floor(item.temp.min)}&#176;C {Math.round(item.temp.max)}&#176;C</Text>
+                                    <Image style={styles.img}
+                                           source={{uri: `https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/${item.weather[0].icon}.png`}}
+                                    />
+                                </View>
+                            })
+                        }
+                    </View>
+                </ScrollView>
+                <ScrollView horizontal={true}>
+                    {
+                        hourly.map(item => {
+                            return <View key={item.dt}>
+                                <Text>{timeTransform(item.dt)}</Text>
+                                <Text>{Math.round(item.temp)}&#176;C</Text>
+                                <Image style={styles.img}
+                                       source={{uri: `https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/${item.weather[0].icon}.png`}}
+                                />
+                            </View>
+                        })
+                    }
+                </ScrollView>
             </ScrollView>
         </View>
     )
